@@ -1,0 +1,767 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>What's Your Media Persona? | Beth Nydick</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --cream: #F5EFE6;
+  --warm-white: #FDFAF6;
+  --dark: #1A1208;
+  --gold: #BF9642;
+  --gold-light: #D4AF6A;
+  --rose: #B85C4A;
+  --taupe: #9A8572;
+  --soft-taupe: #D6C7B2;
+  --deep-brown: #2A1A0E;
+  --mid-brown: #5C3D28;
+}
+
+* { margin:0; padding:0; box-sizing:border-box; }
+
+body {
+  background: var(--cream);
+  color: var(--dark);
+  font-family: 'DM Sans', sans-serif;
+  min-height: 100vh;
+}
+
+/* HEADER */
+.header {
+  background: var(--warm-white);
+  border-bottom: 1px solid var(--soft-taupe);
+  padding: 16px 32px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.logo {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--deep-brown);
+  letter-spacing: 0.04em;
+  text-decoration: none;
+}
+.logo span { color: var(--gold); }
+.header-tagline {
+  font-size: 0.72rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--taupe);
+}
+
+/* HERO */
+.hero {
+  background: var(--deep-brown);
+  padding: 72px 32px 56px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.hero::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 60% 50% at 20% 60%, rgba(191,150,66,0.13) 0%, transparent 70%),
+    radial-gradient(ellipse 50% 60% at 85% 30%, rgba(184,92,74,0.10) 0%, transparent 70%);
+  pointer-events: none;
+}
+.hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 0.68rem;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--gold-light);
+  margin-bottom: 22px;
+  position: relative;
+  z-index: 1;
+}
+.hero-badge::before, .hero-badge::after {
+  content: '';
+  width: 36px; height: 1px;
+  background: var(--gold);
+  opacity: 0.5;
+}
+.hero h1 {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(2.2rem, 5.5vw, 3.8rem);
+  font-weight: 700;
+  color: var(--warm-white);
+  line-height: 1.12;
+  margin-bottom: 18px;
+  position: relative;
+  z-index: 1;
+}
+.hero h1 em { font-style: italic; color: var(--gold-light); }
+.hero-sub {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(1.05rem, 2.5vw, 1.35rem);
+  color: var(--soft-taupe);
+  font-style: italic;
+  line-height: 1.65;
+  max-width: 520px;
+  margin: 0 auto 10px;
+  position: relative;
+  z-index: 1;
+}
+.hero-footnote {
+  font-size: 0.74rem;
+  color: var(--taupe);
+  letter-spacing: 0.06em;
+  position: relative;
+  z-index: 1;
+}
+
+/* QUIZ SHELL */
+.quiz-shell {
+  max-width: 680px;
+  margin: 0 auto;
+  background: var(--warm-white);
+  box-shadow: 0 2px 40px rgba(26,18,8,0.08);
+}
+
+/* PROGRESS */
+.progress-bar-wrap {
+  padding: 22px 48px 0;
+  display: none;
+}
+.progress-meta {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+.progress-label {
+  font-size: 0.68rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--taupe);
+}
+.progress-step {
+  font-family: 'Playfair Display', serif;
+  font-size: 0.85rem;
+  color: var(--gold);
+  font-weight: 600;
+}
+.progress-track {
+  height: 3px;
+  background: var(--soft-taupe);
+  border-radius: 2px;
+}
+.progress-fill {
+  height: 100%;
+  border-radius: 2px;
+  background: linear-gradient(90deg, var(--gold), var(--rose));
+  transition: width 0.55s cubic-bezier(.4,0,.2,1);
+}
+
+/* SCREENS */
+.screen {
+  display: none;
+  padding: 48px 48px 52px;
+  animation: rise 0.38s ease forwards;
+}
+.screen.active { display: block; }
+
+@keyframes rise {
+  from { opacity:0; transform: translateY(14px); }
+  to   { opacity:1; transform: translateY(0); }
+}
+
+/* START */
+.start-icon { font-size: 2.4rem; margin-bottom: 18px; display: block; }
+.start-kicker {
+  font-size: 0.7rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 14px;
+  display: block;
+}
+.start-title {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(1.4rem, 3.5vw, 2rem);
+  color: var(--deep-brown);
+  font-weight: 700;
+  line-height: 1.25;
+  margin-bottom: 14px;
+}
+.start-body {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.1rem;
+  color: var(--taupe);
+  font-style: italic;
+  line-height: 1.65;
+  margin-bottom: 32px;
+  max-width: 480px;
+}
+.promises { display: flex; flex-direction: column; gap: 10px; margin-bottom: 36px; }
+.promise-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  font-size: 0.88rem;
+  color: var(--mid-brown);
+  line-height: 1.5;
+}
+.promise-dot {
+  width: 22px; height: 22px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--gold), var(--gold-light));
+  color: white;
+  font-size: 0.65rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+/* QUESTIONS */
+.q-kicker {
+  font-size: 0.68rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--gold);
+  display: block;
+  margin-bottom: 12px;
+}
+.q-headline {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(1.2rem, 3vw, 1.65rem);
+  color: var(--deep-brown);
+  font-weight: 600;
+  line-height: 1.35;
+  margin-bottom: 8px;
+}
+.q-aside {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  color: var(--taupe);
+  font-size: 1rem;
+  margin-bottom: 28px;
+  line-height: 1.5;
+}
+.answers { display: flex; flex-direction: column; gap: 10px; }
+.ans-btn {
+  background: var(--cream);
+  border: 1.5px solid var(--soft-taupe);
+  border-radius: 10px;
+  padding: 14px 18px 14px 16px;
+  cursor: pointer;
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  text-align: left;
+  transition: all 0.2s ease;
+  position: relative;
+  overflow: hidden;
+}
+.ans-btn::before {
+  content: '';
+  position: absolute;
+  left: 0; top: 0; bottom: 0;
+  width: 3px;
+  background: var(--gold);
+  transform: scaleY(0);
+  transform-origin: bottom;
+  transition: transform 0.22s ease;
+}
+.ans-btn:hover { border-color: var(--gold); background: #FAF4EA; transform: translateX(3px); }
+.ans-btn:hover::before { transform: scaleY(1); }
+.ans-btn.selected { border-color: var(--gold); background: linear-gradient(135deg,#FAF4EA,#F5EADA); }
+.ans-btn.selected::before { transform: scaleY(1); }
+.ans-letter {
+  width: 26px; height: 26px;
+  border-radius: 50%;
+  background: var(--soft-taupe);
+  color: white;
+  font-size: 0.68rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: background 0.2s;
+  margin-top: 1px;
+}
+.ans-btn:hover .ans-letter,
+.ans-btn.selected .ans-letter { background: var(--gold); }
+.ans-text { font-size: 0.9rem; color: var(--dark); line-height: 1.5; padding-top: 2px; }
+
+/* BUTTONS */
+.cta-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--deep-brown);
+  color: var(--warm-white);
+  border: none;
+  padding: 15px 36px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.82rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.22s ease;
+  margin-top: 30px;
+}
+.cta-btn.hidden { opacity:0; pointer-events:none; transform: translateY(8px); }
+.cta-btn.visible { opacity:1; pointer-events:all; transform: translateY(0); }
+.cta-btn:hover { background: var(--gold); color: var(--deep-brown); transform: translateY(-2px); box-shadow: 0 8px 24px rgba(191,150,66,.3); }
+.cta-btn.primary { background: var(--rose); box-shadow: 0 4px 20px rgba(184,92,74,.25); }
+.cta-btn.primary:hover { background: #A34B3A; color: var(--warm-white); transform: translateY(-2px); box-shadow: 0 10px 30px rgba(184,92,74,.35); }
+
+/* EMAIL GATE */
+.email-screen { text-align: center; }
+.gate-eyebrow {
+  font-size: 0.68rem;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--gold);
+  display: block;
+  margin-bottom: 16px;
+}
+.gate-title {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(1.5rem, 4vw, 2.1rem);
+  color: var(--deep-brown);
+  font-weight: 700;
+  line-height: 1.2;
+  margin-bottom: 12px;
+}
+.gate-title em { font-style: italic; color: var(--rose); }
+.gate-body {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.08rem;
+  color: var(--taupe);
+  font-style: italic;
+  line-height: 1.65;
+  max-width: 400px;
+  margin: 0 auto 28px;
+}
+.form-fields { max-width: 420px; margin: 0 auto; }
+.field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 12px; }
+.field {
+  background: var(--cream);
+  border: 1.5px solid var(--soft-taupe);
+  border-radius: 8px;
+  padding: 13px 16px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.88rem;
+  color: var(--dark);
+  width: 100%;
+  outline: none;
+  transition: border-color 0.2s;
+}
+.field:focus { border-color: var(--gold); }
+.field::placeholder { color: var(--taupe); }
+.privacy { font-size: 0.7rem; color: var(--taupe); margin-top: 14px; letter-spacing: 0.04em; line-height: 1.5; }
+
+/* RESULT */
+.result-screen { text-align: center; }
+.persona-pill {
+  display: inline-block;
+  background: var(--deep-brown);
+  color: var(--gold-light);
+  font-size: 0.65rem;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  padding: 7px 18px;
+  border-radius: 100px;
+  margin-bottom: 20px;
+  font-weight: 500;
+}
+.result-name {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(1.8rem, 5vw, 2.8rem);
+  color: var(--deep-brown);
+  font-weight: 700;
+  line-height: 1.15;
+  margin-bottom: 8px;
+}
+.result-name em { font-style: italic; color: var(--rose); }
+.result-tagline {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.1rem;
+  font-style: italic;
+  color: var(--taupe);
+  margin-bottom: 26px;
+  line-height: 1.6;
+}
+.result-desc {
+  background: linear-gradient(135deg, #FAF4EA, #F5EADA);
+  border-left: 3px solid var(--gold);
+  border-radius: 0 10px 10px 0;
+  padding: 22px 26px;
+  font-size: 0.9rem;
+  line-height: 1.75;
+  color: var(--mid-brown);
+  text-align: left;
+  max-width: 500px;
+  margin: 0 auto 30px;
+}
+.product-card {
+  background: var(--deep-brown);
+  border-radius: 14px;
+  padding: 30px 32px;
+  max-width: 460px;
+  margin: 0 auto 28px;
+  text-align: left;
+  position: relative;
+  overflow: hidden;
+}
+.product-card::before {
+  content: '';
+  position: absolute;
+  top:-50px; right:-50px;
+  width:160px; height:160px;
+  border-radius:50%;
+  background: rgba(191,150,66,0.08);
+}
+.product-rec { font-size: 0.62rem; letter-spacing: 0.26em; text-transform: uppercase; color: var(--gold); display: block; margin-bottom: 10px; }
+.product-title { font-family: 'Playfair Display', serif; font-size: 1.2rem; color: var(--warm-white); font-weight: 600; line-height: 1.3; margin-bottom: 10px; }
+.product-blurb { font-size: 0.85rem; color: var(--soft-taupe); line-height: 1.65; margin-bottom: 22px; }
+.product-footer { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 14px; }
+.product-price { font-family: 'Playfair Display', serif; font-size: 1.7rem; color: var(--gold-light); font-weight: 700; }
+.shop-link {
+  display: inline-block;
+  background: linear-gradient(135deg, var(--gold), #A8822A);
+  color: var(--deep-brown);
+  text-decoration: none;
+  padding: 13px 26px;
+  border-radius: 7px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  transition: all 0.22s ease;
+  box-shadow: 0 4px 16px rgba(191,150,66,.3);
+}
+.shop-link:hover { transform: translateY(-2px); box-shadow: 0 8px 28px rgba(191,150,66,.45); }
+.retake-btn {
+  background: none; border: none;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.78rem; color: var(--taupe);
+  cursor: pointer; text-decoration: underline;
+  text-underline-offset: 3px; transition: color 0.2s;
+}
+.retake-btn:hover { color: var(--rose); }
+
+.ornament { text-align: center; color: var(--gold); letter-spacing: 0.6em; font-size: 1rem; opacity: 0.4; padding: 20px; display: none; }
+
+/* FOOTER */
+.site-footer {
+  background: var(--deep-brown);
+  max-width: 680px;
+  margin: 0 auto;
+  padding: 28px 48px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+.footer-quote { font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 0.9rem; color: var(--soft-taupe); }
+.footer-link { font-size: 0.7rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--gold); text-decoration: none; }
+.footer-link:hover { color: var(--gold-light); }
+
+@media (max-width: 580px) {
+  .header { padding: 14px 20px; }
+  .header-tagline { display: none; }
+  .hero { padding: 54px 20px 40px; }
+  .screen { padding: 32px 24px 40px; }
+  .progress-bar-wrap { padding: 18px 24px 0; }
+  .field-row { grid-template-columns: 1fr; }
+  .product-card { padding: 24px 20px; }
+  .site-footer { padding: 22px 24px; }
+}
+</style>
+</head>
+<body>
+
+<header class="header">
+  <a href="https://bethnydick.com" class="logo">Beth <span>Nydick</span></a>
+  <span class="header-tagline">Media Strategist &amp; Visibility Expert</span>
+</header>
+
+<section class="hero">
+  <div class="hero-badge">✦ Free Quiz ✦</div>
+  <h1>What's Your<br><em>Media Persona?</em></h1>
+  <p class="hero-sub">5 questions. 60 seconds. Your personalized roadmap from invisible to unstoppable — sent straight to your inbox.</p>
+  <p class="hero-footnote">(Takes less time than your morning coffee. Might change everything.)</p>
+</section>
+
+<div class="quiz-shell">
+  <div class="progress-bar-wrap" id="progressWrap">
+    <div class="progress-meta">
+      <span class="progress-label">Your Journey</span>
+      <span class="progress-step" id="progressCount">1 of 5</span>
+    </div>
+    <div class="progress-track">
+      <div class="progress-fill" id="progressFill" style="width:20%"></div>
+    </div>
+  </div>
+
+  <!-- START -->
+  <div class="screen active" id="s-start">
+    <span class="start-icon">✨</span>
+    <span class="start-kicker">✦ The Quiz That Sells for You</span>
+    <h2 class="start-title">Let's figure out exactly where you are — and what you actually need next.</h2>
+    <p class="start-body">(No fluff. No generic "post more on Instagram" advice. The real thing that'll move the needle for YOUR media journey — right now.)</p>
+    <div class="promises">
+      <div class="promise-item"><span class="promise-dot">1</span>Answer 5 quick questions about your media journey</div>
+      <div class="promise-item"><span class="promise-dot">2</span>Unlock your personalized Media Persona</div>
+      <div class="promise-item"><span class="promise-dot">3</span>Get the ONE thing that'll actually transform your results</div>
+    </div>
+    <button class="cta-btn visible" onclick="startQuiz()">Let's Go →</button>
+  </div>
+
+  <!-- Q1 -->
+  <div class="screen" id="s-q1">
+    <span class="q-kicker">Question 1 of 5</span>
+    <h2 class="q-headline">Where are you right now in your media journey?</h2>
+    <p class="q-aside">(Be honest — this is a safe space. No judgment here, only strategy.)</p>
+    <div class="answers">
+      <button class="ans-btn" onclick="pick(this,'q1','rookie')"><span class="ans-letter">A</span><span class="ans-text">Media? What's that? I have zero idea where to start. Send help.</span></button>
+      <button class="ans-btn" onclick="pick(this,'q1','rising')"><span class="ans-letter">B</span><span class="ans-text">I've dipped my toes in — maybe a podcast or two — but nothing consistent.</span></button>
+      <button class="ans-btn" onclick="pick(this,'q1','pro')"><span class="ans-letter">C</span><span class="ans-text">I'm out here doing media regularly. The results just aren't matching the effort. 🦗</span></button>
+    </div>
+    <button class="cta-btn hidden" id="nxt1" onclick="go(2)">Next →</button>
+  </div>
+
+  <!-- Q2 -->
+  <div class="screen" id="s-q2">
+    <span class="q-kicker">Question 2 of 5</span>
+    <h2 class="q-headline">What's your biggest media headache right now?</h2>
+    <p class="q-aside">(Pick the one that makes you go "UGH" the loudest in your head.)</p>
+    <div class="answers">
+      <button class="ans-btn" onclick="pick(this,'q2','rookie')"><span class="ans-letter">A</span><span class="ans-text">I don't even know where to begin. It all feels like a foreign language.</span></button>
+      <button class="ans-btn" onclick="pick(this,'q2','podcast')"><span class="ans-letter">B</span><span class="ans-text">Finding the right podcasts and media opportunities for MY brand specifically.</span></button>
+      <button class="ans-btn" onclick="pick(this,'q2','convert')"><span class="ans-letter">C</span><span class="ans-text">I'm getting interviews — I'm just not converting them into clients or cash money.</span></button>
+      <button class="ans-btn" onclick="pick(this,'q2','screen')"><span class="ans-letter">D</span><span class="ans-text">Looking polished and confident on camera. It's giving major anxiety.</span></button>
+      <button class="ans-btn" onclick="pick(this,'q2','pitch')"><span class="ans-letter">E</span><span class="ans-text">Getting the media to actually say YES to me when I pitch. Crickets. Always.</span></button>
+    </div>
+    <button class="cta-btn hidden" id="nxt2" onclick="go(3)">Next →</button>
+  </div>
+
+  <!-- Q3 -->
+  <div class="screen" id="s-q3">
+    <span class="q-kicker">Question 3 of 5</span>
+    <h2 class="q-headline">What do you want in the next 90 days?</h2>
+    <p class="q-aside">(Dream a little, babe. What would actually move the needle?)</p>
+    <div class="answers">
+      <button class="ans-btn" onclick="pick(this,'q3','rookie')"><span class="ans-letter">A</span><span class="ans-text">Get my FIRST media feature. Period. I just need to start somewhere.</span></button>
+      <button class="ans-btn" onclick="pick(this,'q3','podcast')"><span class="ans-letter">B</span><span class="ans-text">Book consistent podcast guest spots and build real, lasting visibility.</span></button>
+      <button class="ans-btn" onclick="pick(this,'q3','convert')"><span class="ans-letter">C</span><span class="ans-text">Turn my media appearances into actual cash money. Revenue. Clients. Let's go.</span></button>
+      <button class="ans-btn" onclick="pick(this,'q3','pitch')"><span class="ans-letter">D</span><span class="ans-text">Land a big national media placement — think Forbes, Today Show, major podcasts.</span></button>
+    </div>
+    <button class="cta-btn hidden" id="nxt3" onclick="go(4)">Next →</button>
+  </div>
+
+  <!-- Q4 -->
+  <div class="screen" id="s-q4">
+    <span class="q-kicker">Question 4 of 5</span>
+    <h2 class="q-headline">Have you been on a podcast before?</h2>
+    <p class="q-aside">(And no — listening to podcasts while you fold laundry does NOT count.)</p>
+    <div class="answers">
+      <button class="ans-btn" onclick="pick(this,'q4','rookie')"><span class="ans-letter">A</span><span class="ans-text">Nope. Total podcast virgin over here. Never done it.</span></button>
+      <button class="ans-btn" onclick="pick(this,'q4','rising')"><span class="ans-letter">B</span><span class="ans-text">Once or twice — it went fine but I haven't made it a real thing yet.</span></button>
+      <button class="ans-btn" onclick="pick(this,'q4','pro')"><span class="ans-letter">C</span><span class="ans-text">Yes! I guest regularly. The problem is the results haven't followed.</span></button>
+    </div>
+    <button class="cta-btn hidden" id="nxt4" onclick="go(5)">Next →</button>
+  </div>
+
+  <!-- Q5 -->
+  <div class="screen" id="s-q5">
+    <span class="q-kicker">Question 5 of 5</span>
+    <h2 class="q-headline">Do you have a media kit?</h2>
+    <p class="q-aside">(That one document that makes you look like you have your entire life together — in the best way.)</p>
+    <div class="answers">
+      <button class="ans-btn" onclick="pick(this,'q5','rookie')"><span class="ans-letter">A</span><span class="ans-text">A what?? Is that something I need? Nobody told me about this. 👀</span></button>
+      <button class="ans-btn" onclick="pick(this,'q5','rising')"><span class="ans-letter">B</span><span class="ans-text">Kind of. It's giving major "rough draft" energy. Could use a serious glow-up.</span></button>
+      <button class="ans-btn" onclick="pick(this,'q5','pro')"><span class="ans-letter">C</span><span class="ans-text">Yes — polished, updated, and ready to send at a moment's notice.</span></button>
+    </div>
+    <button class="cta-btn hidden" id="nxt5" onclick="goEmail()">Show Me My Results →</button>
+  </div>
+
+  <!-- EMAIL GATE -->
+  <div class="screen email-screen" id="s-email">
+    <span class="gate-eyebrow">✦ Almost There ✦</span>
+    <h2 class="gate-title">Your <em>Media Persona</em><br>is ready and waiting.</h2>
+    <p class="gate-body">Drop your name and email to unlock your personalized result + a special recommendation for exactly where you are in your media journey right now.</p>
+    <div class="form-fields">
+      <div class="field-row">
+        <input type="text" class="field" id="fname" placeholder="First Name" />
+        <input type="email" class="field" id="femail" placeholder="Email Address" />
+      </div>
+      <button class="cta-btn primary visible" style="width:100%;justify-content:center;margin-top:4px;" onclick="showResult()">
+        Show Me My Persona! ✨
+      </button>
+    </div>
+    <p class="privacy">Zero spam. Just your results + the good stuff Beth only shares with her list.</p>
+  </div>
+
+  <!-- RESULT -->
+  <div class="screen result-screen" id="s-result"></div>
+
+  <div class="ornament" id="ornament">✦ · · · ✦ · · · ✦</div>
+</div>
+
+<footer class="site-footer">
+  <span class="footer-quote">"From invisible to unstoppable — one interview at a time."</span>
+  <a href="https://bethnydick.com" class="footer-link">bethnydick.com</a>
+</footer>
+
+<script>
+const scores = {};
+
+const personas = {
+  rookie: {
+    name: 'The <em>Media Rookie</em>',
+    tagline: "You've got something powerful to say. You just need the roadmap to say it — loudly.",
+    desc: "Look, everyone starts somewhere — and the fact that you're here already puts you ahead of 90% of people who say they want media coverage but never actually do anything about it. You're not behind. You're just at the beginning of your glow-up. And it's going to be good, bestie.",
+    product: 'Get Media Ready in 3 Days',
+    blurb: "3 days. That's all it takes to go from 'I don't even know where to start' to fully media-ready. Beth's done the heavy lifting so you don't have to fumble in the dark.",
+    price: '$57',
+    url: 'https://bethnydick.com/shop'
+  },
+  podcast: {
+    name: 'The <em>Podcast Seeker</em>',
+    tagline: "You know podcasts are your lane. Now let's find the right ones — and show up like you own the room.",
+    desc: "Here's the deal: there are thousands of podcasts that would LOVE to have you on. The problem isn't your story — it's knowing which shows are actually worth your time and how to land them strategically. That ends today.",
+    product: 'Ultimate Guide to Finding the Perfect Podcast (w/ Quiz)',
+    blurb: "Stop guessing and start booking. This guide cuts through the noise so you can find the exact podcasts that will put you in front of your dream clients — and book them.",
+    price: '$49',
+    url: 'https://bethnydick.com/shop'
+  },
+  convert: {
+    name: 'The <em>Visibility Seeker</em>',
+    tagline: "You're doing the work. You're showing up. Now let's make sure it's actually paying you.",
+    desc: "Real talk: visibility is cute, but revenue is better. You've been out here doing interviews and guesting on podcasts — and watching it not convert. That's not a visibility problem. That's a strategy problem. And strategy? That's Beth's whole thing.",
+    product: 'Unlock $10K From Your Next Podcast Interview',
+    blurb: "The #1 guide for experts who are already getting in front of audiences — and are DONE leaving money on the table. Turn your next interview into $10K. No, seriously.",
+    price: '$49',
+    url: 'https://bethnydick.com/shop'
+  },
+  screen: {
+    name: 'The <em>Small Screen Star</em>',
+    tagline: "The camera is waiting on YOU. Let's make sure you show up and show out.",
+    desc: "You've got the expertise, the story, and the presence. What you need is the confidence and the playbook to walk into any TV segment, video interview, or virtual stage and own every single second of it. No more hiding behind a blog post, babe.",
+    product: 'The No-BS Guide to Conquering the Small Screen',
+    blurb: "Everything you need to show up polished, powerful, and utterly unforgettable on video — whether it's a podcast Zoom, a live TV hit, or your next big virtual stage.",
+    price: '$117',
+    url: 'https://bethnydick.com/shop'
+  },
+  pitch: {
+    name: 'The <em>Pitch-Ready Powerhouse</em>',
+    tagline: "You know what you want. You just need the pitch that makes media say yes every single time.",
+    desc: "Speaking of badass — you're done playing small. You're ready to pitch big, land big, and get in front of audiences that will actually change your business. All you need is the system that a former NBC, VH1, and Paramount producer has spent 20 years perfecting.",
+    product: 'Pitch Guide',
+    blurb: "The comprehensive pitch package with everything you need to earn the media coverage you actually deserve — from the pitch itself to the follow-up strategy. It's all in here.",
+    price: '$79.99',
+    url: 'https://bethnydick.com/shop'
+  }
+};
+
+function getPersona() {
+  const c = {rookie:0,podcast:0,convert:0,screen:0,pitch:0};
+  Object.values(scores).forEach(v => {
+    if(v === 'rising') c.podcast++;
+    else if(v === 'pro') c.convert++;
+    else if(c[v] !== undefined) c[v]++;
+  });
+  return Object.entries(c).sort((a,b)=>b[1]-a[1])[0][0];
+}
+
+function pick(btn, q, val) {
+  document.querySelectorAll('#s-'+q+' .ans-btn').forEach(b => b.classList.remove('selected'));
+  btn.classList.add('selected');
+  scores[q] = val;
+  const n = q.replace('q','');
+  const nxt = document.getElementById('nxt'+n);
+  if(nxt) { nxt.classList.remove('hidden'); nxt.classList.add('visible'); }
+}
+
+function show(id) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+}
+
+function updateProgress(n) {
+  document.getElementById('progressWrap').style.display = 'block';
+  document.getElementById('progressCount').textContent = n+' of 5';
+  document.getElementById('progressFill').style.width = (n/5*100)+'%';
+}
+
+function startQuiz() { show('s-q1'); updateProgress(1); window.scrollTo({top:0,behavior:'smooth'}); }
+
+function go(n) {
+  show('s-q'+n);
+  updateProgress(n);
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function goEmail() {
+  document.getElementById('progressWrap').style.display = 'none';
+  show('s-email');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function showResult() {
+  const fname = (document.getElementById('fname').value.trim()) || 'friend';
+  const email = document.getElementById('femail').value.trim();
+  if(!email || !email.includes('@')) {
+    alert("Hey — we need your email to send you your results! Drop it in and let's go.");
+    return;
+  }
+  const key = getPersona();
+  const p = personas[key] || personas.rookie;
+  const first = fname.charAt(0).toUpperCase() + fname.slice(1);
+
+  document.getElementById('s-result').innerHTML = `
+    <span class="persona-pill">✦ Your Persona Is... ✦</span>
+    <h2 class="result-name">${p.name}</h2>
+    <p class="result-tagline">${p.tagline}</p>
+    <div class="result-desc">
+      <strong>${first !== 'friend' ? first+', ' : ''}</strong>${p.desc}
+    </div>
+    <div class="product-card">
+      <span class="product-rec">✦ Your Recommended Next Step</span>
+      <div class="product-title">${p.product}</div>
+      <p class="product-blurb">${p.blurb}</p>
+      <div class="product-footer">
+        <span class="product-price">${p.price}</span>
+        <a href="${p.url}" class="shop-link" target="_blank">Get It Now →</a>
+      </div>
+    </div>
+    <button class="retake-btn" onclick="retake()">← Retake the quiz</button>
+  `;
+
+  document.getElementById('progressWrap').style.display = 'none';
+  document.getElementById('ornament').style.display = 'block';
+  show('s-result');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function retake() {
+  Object.keys(scores).forEach(k => delete scores[k]);
+  document.querySelectorAll('.ans-btn').forEach(b => b.classList.remove('selected'));
+  document.querySelectorAll('.cta-btn:not(.visible)').forEach(b => { b.classList.add('hidden'); });
+  document.getElementById('fname').value = '';
+  document.getElementById('femail').value = '';
+  document.getElementById('ornament').style.display = 'none';
+  show('s-start');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+</script>
+</body>
+</html>
